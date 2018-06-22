@@ -4,7 +4,6 @@ Created on Tue May 15 14:52:37 2018
 
 @author: Lab User
 """
-import qcodes as qc
 from qcodes.instrument_drivers.stanford_research.SR830 import SR830
 
 def initLockins(lockin1, lockin2, lockin3):
