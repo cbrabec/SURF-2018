@@ -6,9 +6,10 @@ from LockinInit import initLockins
 
 from ppms import Dynacool
 
-ppms = Dynacool('131.215.220.161')
+ppms = Dynacool('131.215.107.158')
+print('connected')
 
-
+'''
 lockin1 = SR830('lockin1', 'GPIB0::6::INSTR')
 lockin2 = SR830('lockin2', 'GPIB0::7::INSTR')
 lockin3 = SR830('lockin3', 'GPIB0::8::INSTR')
@@ -18,10 +19,14 @@ initLockins(lockin1, lockin2, lockin3)
 
 lockinData = np.zeros(300)
 temps = np.linspace[300, 0, 600]
-
-for n, t in enumerate(temps):
-    ppms.setTemperature(t, 1)
-    ppms.waitForTemperature()
+'''
+ppms.setField(0, 1)
+ppms.waitForField()
+ppms.setTemperature(298, 10)
+ppms.waitForTemperature()
+sleep(1)
+print('done')
+'''
     lockin1.buffer_SR(512)
     lockin2.buffer_SR(512)
     lockin3.buffer_SR(512)
@@ -48,7 +53,8 @@ for n, t in enumerate(temps):
     lockin2Data = np.average(lockin2.ch1_databuffer.get_raw())
     lockin3Data = np.average(lockin3.ch1_databuffer.get_raw())
     
-    lockinData[t] = (t, lockin1Data, lockin2Data, lockin3Data)
+    lockinData[n] = (t, lockin1Data, lockin2Data, lockin3Data)
+'''
     
 
-np.savetxt("lockinData.csv", lockinData, '%.18e', ',')
+#np.savetxt("lockinData.csv", lockinData, '%.18e', ', ')

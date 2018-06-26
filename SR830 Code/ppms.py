@@ -22,6 +22,10 @@ from QuantumDesign.QDInstrument import *
 
 QDI_DYNACOOL_TYPE = QDInstrumentBase.QDInstrumentType.DynaCool
 DEFAULT_PORT = 11000
+linear = 0
+NoOvershoot = 1
+persistent = 0
+purge_seal = 1
 QDI_FIELD_STATUS = ['MagnetUnknown',
       'StablePersistent',
       'WarmingSwitch',
@@ -91,8 +95,15 @@ class Dynacool:
             field -- the field, in gauss
             rate  -- the field sweep rate, in gauss / second
             """
-        return self.qdi_instrument.SetField(field, rate, 'Linear', 'Persistent')
+        return self.qdi_instrument.SetField(field, rate, NoOvershoot, persistent)
 
     def waitForField(self, delay=5, timeout=600):
         """Pause execution until the PPMS reaches the field setpoint."""
         return self.qdi_instrument.WaitFor(False, True, False, False, delay, timeout)
+
+    def purgeChamber(self):
+        return self.qdi_instrument.SetChamber(purge_seal)
+    
+    def waitForChamber(self, delay = 5, timeout = 600):
+        return self.qdi_instrument.WaitFor(False, False, False, True, delay, timeout)
+    
