@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
-import qcodes as qc
-from qcodes.instrument_drivers.stanford_research.SR830 import SR830
-from qcodes.tests.instrument_mocks import DummyInstrument
+"""
+Created on Tue Jun 26 10:27:08 2018
 
-lockin1 = SR830('lockin1', 'GPIB0::6::INSTR')
-lockin2 = SR830('lockin2', 'GPIB0::7::INSTR')
-lockin3 = SR830('lockin3', 'GPIB0::8::INSTR')
+@author: Cole
+"""
+import time
+import numpy as np
+import matplotlib as mtplib
+lockinData = np.zeros(300, dtype = 'S40, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8')
+temps = np.linspace(0, 600, 300)
+yvalue = []
 
-PPMS    = DummyInstrument(name = 'PPMS', gates = ['temp', 'magnetic field'])
 
-station = qc.Station(lockin1, lockin2, lockin3, PPMS)
+for n, t in enumerate(temps):
+    localtime = time.asctime( time.localtime(time.time()) )
+    lockinData[n] = (localtime,t, n, 0,0,0,0,0,0,0,0,0)
+    yvalue.append(n)
+    
+np.savetxt("lockinData.csv", lockinData,['%40s' ,'%.8e','%.8e','%.8e','%.8e','%.8e','%.8e','%.8e','%.8e','%.8e','%.8e','%.8e'], ', ')
