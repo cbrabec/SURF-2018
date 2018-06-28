@@ -85,15 +85,15 @@ class Dynacool:
         return self.qdi_instrument.WaitFor(True, False, False, False, delay, timeout)
 
     def getField(self):
-        """Return the current field, in gauss."""
+        """Return the current field, in Oe."""
         return self.qdi_instrument.GetField(0,0)
 
     def setField(self, field, rate):
         """Set the field.
 
             Keyword arguments:
-            field -- the field, in gauss
-            rate  -- the field sweep rate, in gauss / second
+            field -- the field, in Oe
+            rate  -- the field sweep rate, in Oe / second
             """
         return self.qdi_instrument.SetField(field, rate, NoOvershoot, persistent)
 

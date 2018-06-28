@@ -4,11 +4,19 @@ Created on Tue May 15 14:52:37 2018
 
 @author: Lab User
 """
-from qcodes.instrument_drivers.stanford_research.SR830 import SR830
 
 def initLockins(lockin1, lockin2, lockin3):
+    '''
+    This function takes three arguments: 3 SR830 lockin Amplifier objects.
+    The objects are changed in place, with their config setting changed to 
+    the values indicated in the function.
+    
+    Revision History: 06/27/2018 - Initial Revision
+    Author: Cole Brabec
+    '''
+    #Lockin1 config:
     lockin1.phase(0)
-    lockin1.reference_source('internal') #Internal source
+    lockin1.reference_source('internal')
     lockin1.frequency(7.311)
     lockin1.amplitude(3)
     lockin1.ext_trigger('sine')
@@ -22,6 +30,7 @@ def initLockins(lockin1, lockin2, lockin3):
     lockin1.filter_slope(24)
     lockin1.sync_filter('on')
     
+    #Lockin2 config:
     lockin2.phase(0)
     lockin2.reference_source('external') 
     lockin2.frequency(7.311)
@@ -37,6 +46,7 @@ def initLockins(lockin1, lockin2, lockin3):
     lockin2.filter_slope(24)
     lockin2.sync_filter('on')
     
+    #Lockin3 config:
     lockin3.phase(0)
     lockin3.reference_source('external') 
     lockin3.frequency(7.311)
@@ -51,6 +61,6 @@ def initLockins(lockin1, lockin2, lockin3):
     lockin3.time_constant(1)
     lockin3.filter_slope(24)
     lockin3.sync_filter('on')
-
+#End initLockins
 
     
