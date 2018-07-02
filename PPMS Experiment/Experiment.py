@@ -115,7 +115,7 @@
 #                            Implemented Temp and Mag sweeps
 #
 from qcodes.instrument_drivers.stanford_research.SR830 import SR830
-from LockinInit import initLockins
+#from LockinInit import initLockins
 from sweep import temperatureSweep
 from sweep import magFieldSweep
 from ppms import Dynacool
@@ -135,19 +135,23 @@ lockin3 = SR830('lockin3', 'GPIB0::8::INSTR')
 
 #prompt the user for console input
 inputFile = input("Input name of input File: ")
+f = open(inputFile, 'r')
 sleepTime = lockin1.time_constant.get() * 10
 time = 0
-for line in inputFile:
+for line in f:
     sweepArgs = lineParse(line)
-    npoints = (sweepArgs[3] - sweepArgs[2]/sweepArgs[4])
+    npoints = (sweepArgs[3] - sweepArgs[2])/sweepArgs[4]
     if sweepArgs[0] == 'temperatureSweep':
-        time += (sleepTime + sweepArgs[4]/sweepArgs[5] /60) * npoints
+        time += (sleepTime + (sweepArgs[4]/sweepArgs[5]) /60) * npoints
     else:
-        time += (sleepTime + sweepArgs[4]/sweepArgs[5] /60) * npoints
-time *= 3600
+        time += (sleepTime + (sweepArgs[4]/sweepArgs[5])) * npoints
+time = time / 3600
 print("Estimeated time for experiment in hours: %d" % time)
 inputCommand = input("Would you like to perform experiment (y/n)?: ")
 
+f.close()
+
+f = open(inputFile, 'r')
 if inputCommand == 'y' or inputCommand == 'Y':
     for line in inputFile:
         sweepArgs = lineParse(line)

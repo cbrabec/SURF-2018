@@ -1,0 +1,1 @@
+magneticFieldSweep, testData.csv, 0, 1000, 200, 10, 270, 10

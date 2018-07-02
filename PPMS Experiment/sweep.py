@@ -11,10 +11,16 @@
 #with data being taken from SR830 Lock-in amplifiers
 #
 #
+#
+#Revision History
+#6/27/18 - Initial REvision (Added all functions etc.)
+#7/2/18 - Added floor division, 
 import numpy as np
 import time
+import matplotlib.pyplot as plt
 
-def temperatureSweep(ppms, lockin1, lockin2, lockin3, fileName, startTemp, endTemp, tempInterval, tempRate, B, BRate, sleepTime):
+def temperatureSweep(ppms, lockin1, lockin2, lockin3, fileName, startTemp,
+                     endTemp, tempInterval, tempRate, B, BRate, sleepTime):
     '''
     This function sweeps between a start and end temperature, stepping between
     Temperatures using the given step. Each loop, the ppms is set to the 
@@ -24,7 +30,7 @@ def temperatureSweep(ppms, lockin1, lockin2, lockin3, fileName, startTemp, endTe
     in an array. After the loop, the data is output in a file.
     '''
     #First calculate the number of data points to take
-    nTempPoints = (endTemp - startTemp)/tempInterval
+    nTempPoints = (endTemp - startTemp)//tempInterval
     
     #Initialize a numpy array to store data
     lockinData = np.zeros(nTempPoints, dtype = 'S40' + 11* ',f8')
@@ -40,7 +46,7 @@ def temperatureSweep(ppms, lockin1, lockin2, lockin3, fileName, startTemp, endTe
     it = np.nditer(temps, flags = ['f_index'])
     while not it.finished:
         #Pull the index from the iterator object
-        n = it.index()
+        n = it.index
         
         #set the temperature
         ppms.setTemperature(it[0], float(tempRate))
@@ -79,7 +85,8 @@ def temperatureSweep(ppms, lockin1, lockin2, lockin3, fileName, startTemp, endTe
     np.savetxt(fileName, lockinData,['%40s' ,*saveFormat], ', ')
     
 #end temperatureSweep
-def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB, BInterval, BRate, temp, tempRate, sleepTime):
+def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB,
+                  BInterval, BRate, temp, tempRate, sleepTime):
 
     '''
     This function sweeps between a start and end magnetic field, stepping between
@@ -91,10 +98,15 @@ def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB, BInte
     '''
 
     #Calculate number of data points in the experiment
-    nBPoints = (endB - startB)/BInterval
+    nBPoints = (endB - startB)//BInterval
     
     #Initialize numpy array to store data
     lockinData = np.zeros(nBPoints, dtype = 'S40' + 11* ',f8')
+    
+    #Initialize numpy arrays for hysteresis
+    lockin1R = np.zeros(nBPoints,dtype = 'f8')
+    lockin2R = np.zeros(nBPoints,dtype = 'f8')
+    lockin3R = np.zeros(nBPoints, dtype = 'f8')
     
     #Set up magnetif field strengths to sweep through
     magFields = np.arange(startB, endB, step = float(BInterval), dtype = 'f8')
@@ -109,7 +121,7 @@ def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB, BInte
     #Loop through magnetic field strenghts
     while not it.finished:
         #pull array index from numpy iterator object
-        n = it.index()
+        n = it.index
         
         #Set the field 
         ppms.setField(it[0], float(BRate))
@@ -128,15 +140,44 @@ def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB, BInte
         lockinData[n][4] = lockin1.Y.get()
         lockinData[n][5] = lockin1.R.get()
         
+        #Plot the hysteresis curve
+        plt.figure(1)
+        plt.ylabel('Resistance (Ohms)')
+        plt.xlabel('H (Oe)')
+        plt.title('Lockin1 Hysteresis')
+        lockin1R[n] = lockinData[n][5]
+        plt.plot(magFields[0:n + 1], lockin1R[0:n + 1])
+        plt.show()
+        
         #Get data from lockin2
         lockinData[n][6] = lockin2.X.get()
         lockinData[n][7] = lockin2.Y.get()
         lockinData[n][8] = lockin2.R.get()
+        lockin2R[n] = lockinData[n][8]
+        
+        #Plot the hysteresis curve
+        plt.figure(2)
+        plt.ylabel('Resistance (Ohms)')
+        plt.xlabel('H (Oe)')
+        plt.title('Lockin2 Hysteresis')
+        lockin2R[n] = lockinData[n][5]
+        plt.plot(magFields[0:n + 1], lockin2R[0:n + 1])
+        plt.show()
         
         #Get data from lockin3
         lockinData[n][9] = lockin3.X.get()
         lockinData[n][10] = lockin3.Y.get()
         lockinData[n][11] = lockin3.R.get()
+        lockin3R[n] = lockinData[n][11]
+        
+        #Plot the hysteresis curve
+        plt.figure(3)
+        plt.ylabel('Resistance (Ohms)')
+        plt.xlabel('H (Oe)')
+        plt.title('Lockin3 Hysteresis')
+        lockin2R[n] = lockinData[n][5]
+        plt.plot(magFields[0:n + 1], lockin3R[0:n + 1])
+        plt.show()
         
         #Iterate using numpy
         it.iternext()
