@@ -18,7 +18,18 @@ class TLS:
         self.TLSInstrument = cDll.Cornerstone(connect)
         
     def setWavelength(self, units, wavelength):
-        self.TLSInstrument.setWavelength(units)
+        self.TLSInstrument.setUnits(units)
         self.TLSInstrument.setWavelength(wavelength)
-test = TLS(False)
-test.setWavelength(1)
+    def getWavelength(self):
+        return self.TLSInstrument.getWavelength()
+    def setBandpass(self, bandpass):
+        self.TLSInstrument.setBandpass(bandpass)
+    def getBandpass(self):
+        return self.TLSInstrument.getBandpass()
+    def setFilter(self, filter):
+        self.TLSInstrument.SetFilter(filter)
+    def getFilter(self):
+        return self.TLSInstrument.getFilter()
+        
+test = TLS(True)
+test.setWavelength(cDll.WAVELENGTH_UNITS.NM, 500)

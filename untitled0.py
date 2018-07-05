@@ -9,7 +9,6 @@ from ppms import Dynacool
 from tempFieldSweep import tempFieldSweep
 from readLockinData import readLockinData
 from qcodes.instrument_drivers.stanford_research.SR830 import SR830
-from fileParser import lineParse
 
 #Check ppms Computer for ip address
 ppms = Dynacool(1)
@@ -20,6 +19,3 @@ lockin2 = SR830('lockin2', 'GPIB0::7::INSTR')
 lockin3 = SR830('lockin3', 'GPIB0::8::INSTR')
 
 f = open("ppmsData.csv")
-for line in f:
-    sweepArgs = lineParse(line)
-    tempFieldSweep(*sweepArgs, readLockinData, lockin1, lockin2, lockin3)

@@ -109,7 +109,7 @@ def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB,
     lockin3R = np.zeros(nBPoints, dtype = 'f8')
     
     #Set up magnetif field strengths to sweep through
-    magFields = np.arange(startB, endB, step = float(BInterval), dtype = 'f8')
+    magFields = np.linspace(startB, endB, num = nBPoints, dtype = 'f8')
     
     #Set temperature at which to sweep field strenghts
     ppms.setTemperature(float(temp), float(tempRate))
@@ -186,3 +186,7 @@ def magFieldSweep(ppms, lockin1, lockin2, lockin3, fileName, startB, endB,
     saveFormat = ['%.8e' for n in range(11)]
     np.savetxt(fileName, lockinData,['%40s' ,*saveFormat], ', ')
 #end magFieldSweep
+
+
+
+
