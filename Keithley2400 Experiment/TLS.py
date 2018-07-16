@@ -32,4 +32,4 @@ class TLS:
         return self.TLSInstrument.getFilter()
         
 test = TLS(True)
-#test.setWavelength(cDll.WAVELENGTH_UNITS.NM, 500)
+test.setWavelength(cDll.WAVELENGTH_UNITS.NM, 500)
