@@ -15,9 +15,9 @@ import CornerstoneDll as cDll
 
 class TLS:
     def __init__(self, connect):
-        self.TLSInstrument = cDll.Cornerstone(connect)
+        self.TLSInstrument = cDll.Cornerstone.GetCornerstone(connect)
         
-    def setWavelength(self, units, wavelength):
+    def setWavelength(self, wavelength, units = cDll.WAVELENGTH_UNITS.NM):
         self.TLSInstrument.setUnits(units)
         self.TLSInstrument.setWavelength(wavelength)
     def getWavelength(self):
@@ -30,6 +30,13 @@ class TLS:
         self.TLSInstrument.SetFilter(filter)
     def getFilter(self):
         return self.TLSInstrument.getFilter()
+    def connect(self):
+        return self.TLSInstrument.connect()
         
-test = TLS(True)
-#test.setWavelength(cDll.WAVELENGTH_UNITS.NM, 500)
+Mono = TLS(False)
+if not Mono.connect():
+    print('Please connect device')
+else:
+    print('Device Connected!')
+    print(Mono.getFilter())
+    Mono.setWavelength(500)

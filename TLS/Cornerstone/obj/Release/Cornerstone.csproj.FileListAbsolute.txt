@@ -1,0 +1,7 @@
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\bin\Release\Cornerstone.dll
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\bin\Release\Cornerstone.pdb
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\bin\Release\CyUSB.dll
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\obj\Release\Cornerstone.csprojResolveAssemblyReference.cache
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\obj\Release\Cornerstone.csproj.CoreCompileInputs.cache
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\obj\Release\Cornerstone.dll
+D:\SURF 2018\Cole Brabec - Yeh Lab Experiment Routines\TLS\Cornerstone\obj\Release\Cornerstone.pdb
